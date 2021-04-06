@@ -1,4 +1,4 @@
-package com.reddit.android.challenge
+package com.reddit.rickandmortyapp
 
 import org.junit.Test
 
