@@ -6,7 +6,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "com.android.tools.build:gradle:4.0.1" // Be careful about upgrading this.
+                                                         // Android Studio needs to be at least this version in order
+                                                         // to open the project. If a candidate has an older version,
+                                                         // they'll get errors opening the project, and that wastes time.
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
