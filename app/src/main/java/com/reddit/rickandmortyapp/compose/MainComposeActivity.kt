@@ -3,11 +3,10 @@ package com.reddit.rickandmortyapp.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.ColorRes
 import androidx.compose.material.*
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.unit.dp
+import com.reddit.rickandmortyapp.compose.theme.AppTheme
 
 /**
  * Main Activity for Compose support
@@ -16,24 +15,24 @@ import androidx.compose.ui.unit.dp
 class MainComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = {
-                            Text(text = "Rick and Morty App")
-                        },
-                        backgroundColor = Color(0xFF6200EE),
-                        elevation = 12.dp
-                    )
-                }, content = {
-                    Surface {
-                        Feed(
-                            posts = emptyList() /* TODO */
+            AppTheme {
+                TopAppBar(
+                    title = {
+                        Text(
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            text = "Rick and Morty App"
                         )
-                    }
-                })
+                    },
+                    backgroundColor = MaterialTheme.colorScheme.primary,
+                    elevation = 12.dp
+                )
+                Surface {
+                    Feed(
+                        posts = emptyList() /* TODO */
+                    )
+                }
+            }
         }
     }
 }
