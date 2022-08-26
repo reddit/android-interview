@@ -1,9 +1,8 @@
-package com.reddit.rickandmortyapp
+package com.reddit.rickandmortyapp.noncompose
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.reddit.rickandmortyapp.network.RickAndMortyCharacter
 
 class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
