@@ -12,13 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".noncompose.MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".compose.ComposeActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".noncompose.NonComposeActivity"
+            android:exported="true">
         </activity>
     </application>
 
