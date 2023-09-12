@@ -17,6 +17,10 @@ class ListViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
+    var pageSize: Int = 0
+    var currentPage = 0
+    var isPageLoading: Boolean = false
+
     private val _characters = MutableLiveData<List<RickAndMortyCharacter>>()
     val characters: LiveData<List<RickAndMortyCharacter>> get() = _characters
 
@@ -26,19 +30,40 @@ class ListViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
+    private val _moreCharacters = MutableLiveData<List<RickAndMortyCharacter>>()
+    val moreCharacters: LiveData<List<RickAndMortyCharacter>> get() = _moreCharacters
 
-    fun fetchCharacters(page: Int) {
+
+    fun fetchCharacters() {
         _loading.postValue(true)
         viewModelScope.launch {
             val result = repository.getCharacters()
             if (result.isSuccessful) {
                 result.body()?.let {
+                    pageSize = it.results.size
+                    currentPage = 1
                     _characters.postValue(it.results)
                 }
             } else {
                 _error.postValue(Error())
             }
             _loading.postValue(false)
+        }
+    }
+
+    fun nextPage() {
+        isPageLoading = true
+        viewModelScope.launch {
+            currentPage += 1
+            val result = repository.getCharacters(currentPage)
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    _moreCharacters.postValue(it.results)
+                }
+            } else {
+                _error.postValue(Error())
+            }
+            isPageLoading = false
         }
     }
 }

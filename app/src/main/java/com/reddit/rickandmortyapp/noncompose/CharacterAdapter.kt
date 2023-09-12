@@ -45,4 +45,9 @@ class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
         data.addAll(newData)
         notifyDataSetChanged()
     }
+
+    fun addItems(nextPage: List<RickAndMortyCharacter>) {
+        data.addAll(nextPage)
+        notifyItemRangeChanged(data.size - 1, nextPage.size)
+    }
 }

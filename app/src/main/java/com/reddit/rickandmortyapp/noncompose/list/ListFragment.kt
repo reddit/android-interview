@@ -14,7 +14,7 @@ import com.reddit.rickandmortyapp.noncompose.CharacterAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListFragment:Fragment() {
+class ListFragment : Fragment() {
     private val listViewModel by viewModels<ListViewModel>()
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -30,15 +30,16 @@ class ListFragment:Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         swipeRefreshLayout = view.findViewById<SwipeRefreshLayout?>(R.id.swipeRefreshLayout).apply {
-            setOnRefreshListener { listViewModel.fetchCharacters(1) }
+            setOnRefreshListener { listViewModel.fetchCharacters() }
         }
 
         recyclerView = view.findViewById<RecyclerView?>(R.id.recyclerView).apply {
             adapter = CharacterAdapter()
             layoutManager = LinearLayoutManager(requireContext())
+            addOnScrollListener(createLoadMoreListener())
         }
 
-        listViewModel.fetchCharacters(1)
+        listViewModel.fetchCharacters()
         initObservers()
     }
 
@@ -46,6 +47,11 @@ class ListFragment:Fragment() {
         listViewModel.characters.observe(viewLifecycleOwner) {
             (recyclerView.adapter as CharacterAdapter).setItems(it)
         }
+
+        listViewModel.moreCharacters.observe(viewLifecycleOwner) {
+            (recyclerView.adapter as CharacterAdapter).addItems(it)
+        }
+
         listViewModel.error.observe(viewLifecycleOwner) {
             println(it)
         }
@@ -53,6 +59,26 @@ class ListFragment:Fragment() {
         listViewModel.loading.observe(viewLifecycleOwner) {
             swipeRefreshLayout.isRefreshing = it
         }
+    }
 
+    private fun createLoadMoreListener() = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager: LinearLayoutManager =
+                recyclerView.layoutManager as LinearLayoutManager
+            val visibleItemCount: Int = layoutManager.childCount
+            val totalItemCount: Int = layoutManager.itemCount
+            val firstVisibleItemPosition: Int = layoutManager.findFirstVisibleItemPosition()
+
+            if (!listViewModel.isPageLoading) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                    && firstVisibleItemPosition >= 0
+                    && totalItemCount >= listViewModel.pageSize
+                ) {
+                    listViewModel.nextPage()
+                }
+            }
+        }
     }
 }
