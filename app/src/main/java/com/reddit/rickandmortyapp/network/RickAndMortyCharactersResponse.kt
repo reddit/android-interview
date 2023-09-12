@@ -4,4 +4,4 @@ package com.reddit.rickandmortyapp.network
 
 data class RickAndMortyCharactersResponse(val results: List<RickAndMortyCharacter>)
 
-data class RickAndMortyCharacter(val name: String)
+data class RickAndMortyCharacter(val name: String, val image: String?)
