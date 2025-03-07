@@ -1,20 +1,20 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        kotlin_version = '1.7.10'
-        compose_compiler_version = '1.3.0'
-        compose_library_version = '1.2.1'
-        moshi_version = '1.13.0'
-        androidx_lifecycle_version = '2.5.1'
-        glide_version = '4.12.0'
+        kotlin_version = '2.1.0'
+        compose_library_version = '1.7.8'
+        moshi_version = '1.15.1'
+        androidx_lifecycle_version = '2.8.7'
+        glide_version = '4.14.2'
+        retrofit_version = '2.11.0'
     }
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4' // Be careful about upgrading this.
+        classpath 'com.android.tools.build:gradle:8.8.2' // Be careful about upgrading this.
                                                          // Android Studio needs to be at least this version in order
                                                          // to open the project. If a candidate has an older version,
                                                          // they'll get errors opening the project, and that wastes time.
@@ -28,10 +28,10 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean') {
+    delete rootProject.layout.buildDirectory
 }

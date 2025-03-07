@@ -22,8 +22,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AppTheme {
-                RickAndMortyAppBar()
-                ActivityOptions()
+                Column {
+                    RickAndMortyAppBar()
+                    ActivityOptions()
+                }
             }
         }
     }
